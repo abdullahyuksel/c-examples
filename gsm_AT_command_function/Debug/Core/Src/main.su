@@ -1,0 +1,13 @@
+../Core/Src/main.c:63:6:serial_write_text	24	static
+../Core/Src/main.c:70:6:modem_write_text	24	static
+../Core/Src/main.c:78:7:foo	24	static
+../Core/Src/main.c:94:6:switchModem	8	static
+../Core/Src/main.c:105:6:modem_read	16	static
+../Core/Src/main.c:115:5:mystrcmp	16	static
+../Core/Src/main.c:129:7:quectell_ATcommand_data	32	static
+../Core/Src/main.c:176:5:main	16	static
+../Core/Src/main.c:279:6:SystemClock_Config	120	static
+../Core/Src/main.c:331:13:MX_USART1_UART_Init	8	static
+../Core/Src/main.c:366:13:MX_USART2_UART_Init	8	static
+../Core/Src/main.c:401:13:MX_GPIO_Init	48	static
+../Core/Src/main.c:435:6:Error_Handler	8	static,ignoring_inline_asm
