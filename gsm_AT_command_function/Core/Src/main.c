@@ -62,13 +62,9 @@ static void MX_USART2_UART_Init(void);
 
 void switchModem()
 {
-//	HAL_GPIO_WritePin(REG_GPIO_Port, REG_Pin, GPIO_PIN_RESET);    // Si utiliza el m�dulo gprs V2 modifique el LOW por HIGH
-
-//	digitalWrite(onOffPin, LOW);
-	HAL_GPIO_WritePin(GSM_POWER_GPIO_Port, GSM_POWER_Pin, GPIO_PIN_RESET);  // Si utiliza el m�dulo gprs V2 modifique el LOW por HIGH
- 	HAL_Delay(2000);                                        // En caso que no encienda su m�dulo gprs V2 modifique este comando por "delay(3000);"
-//  digitalWrite(onOffPin, HIGH);
-	HAL_GPIO_WritePin(GSM_POWER_GPIO_Port, GSM_POWER_Pin, GPIO_PIN_SET);    // Si utiliza el m�dulo gprs V2 modifique el LOW por HIGH
+	HAL_GPIO_WritePin(GSM_POWER_GPIO_Port, GSM_POWER_Pin, GPIO_PIN_RESET);
+ 	HAL_Delay(2000);
+	HAL_GPIO_WritePin(GSM_POWER_GPIO_Port, GSM_POWER_Pin, GPIO_PIN_SET);
  	HAL_Delay(5000);
 }
 
