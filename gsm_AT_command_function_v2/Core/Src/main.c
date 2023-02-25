@@ -59,30 +59,35 @@ static void MX_USART2_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
-void switchModem()
+char end[2]="OK";
+void powerModem()
 {
 	HAL_GPIO_WritePin(GSM_POWER_GPIO_Port, GSM_POWER_Pin, GPIO_PIN_RESET);
  	HAL_Delay(2000);
 	HAL_GPIO_WritePin(GSM_POWER_GPIO_Port, GSM_POWER_Pin, GPIO_PIN_SET);
  	HAL_Delay(5000);
 }
+typedef struct gsm {
+  char data[255];
+  char len;
+  char result[10];
+}gsm_t;
 
-char *quectell_ATcommand_data(char *request, uint8_t try)
+gsm_t quectell_ATcommand_data(char *request, uint8_t try)
 {
+	struct gsm Paket={"\0"};
     char *receive = malloc(200);
     char *sendreceive = malloc(200);
     int request_len = 1;
-    if(!receive)
-        return NULL;
+
 	while(try)
 	{
 		try--;
 		request_len = strlen(request);
 		HAL_Delay(100);
-		HAL_UART_Transmit(&huart1,(uint8_t*) request, request_len, 100);  // HAL_MAX_DELAY);
+		HAL_UART_Transmit(&huart1,(uint8_t*) request, request_len, 250);  // HAL_MAX_DELAY);
 		HAL_UART_Receive(&huart1,(uint8_t*) receive, 200, 1000);  // HAL_MAX_DELAY);
-		HAL_Delay(100);
+		HAL_Delay(300);
 
 		int receive_length = strlen(receive);
 
@@ -98,16 +103,18 @@ char *quectell_ATcommand_data(char *request, uint8_t try)
 				&& (receive[receive_length]=='\n')
 				)
 			{
-				strncpy(&sendreceive[0],&receive[0],receive_length-8);
-				sendreceive[receive_length-8]='\0';
+				strncpy(&Paket.data[0],&receive[0],receive_length-8);
+//				Paket.data[receive_length-8]='\0';
+				Paket.len=receive_length-8;
 				receive_length=0;
+				strcpy(&Paket.result[0],end);
 				try=0;
 			}
 			else receive_length--;
 		}
 	}
 
-	return sendreceive;
+	return Paket;
 }
 /* USER CODE END 0 */
 
@@ -142,7 +149,10 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
+  gsm_t runPaket;
   powerModem();
+  char first[4]="ATI\n\r";
+  char imei[8]="AT+GSN\n\r";
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -150,9 +160,13 @@ int main(void)
   while (1)
   {
 
-	  char *receive= quectell_ATcommand_data("ATI\n\r",2);
+	  runPaket= quectell_ATcommand_data(first,2);
 
-	  int len=strlen(receive);
+	  HAL_Delay(2000);
+
+	  memset(&runPaket, '\0', sizeof(runPaket));
+	  runPaket= quectell_ATcommand_data(imei,2);
+
 
 	  HAL_Delay(2000);
 
