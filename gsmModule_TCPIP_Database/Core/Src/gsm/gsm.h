@@ -61,7 +61,8 @@ difference, expressed in quarters of an hour, between the local time and GMT; ra
 */
 extern char NetworkTimeSynchronization[10];//Ağ Saati Senkronizasyonu
 extern char LatestNetworkTimeSynchronized[9];//Senkronize Edilen En Son Ağ Zamanını Elde Edin
-
+extern char NetworkTime[8];
+extern char NetworkTimeSyncReport[9];
 /*
 <enable>
 Indicates whether to show an unsolicited event code that indicates whether the SIM has

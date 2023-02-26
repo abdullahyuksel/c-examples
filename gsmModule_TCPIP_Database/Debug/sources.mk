@@ -23,6 +23,7 @@ C_DEPS :=
 SUBDIRS := \
 Core/Src/gsm \
 Core/Src \
+Core/Src/sensor \
 Core/Startup \
 Drivers/STM32L0xx_HAL_Driver/Src \
 

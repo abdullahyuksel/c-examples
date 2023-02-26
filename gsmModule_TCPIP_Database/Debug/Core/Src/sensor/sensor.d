@@ -1,5 +1,6 @@
-Core/Src/gsm/gsm.o: ../Core/Src/gsm/gsm.c ../Core/Src/gsm/gsm.h \
- ../Core/Inc/main.h ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal.h \
+Core/Src/sensor/sensor.o: ../Core/Src/sensor/sensor.c \
+ ../Core/Src/sensor/sensor.h ../Core/Inc/main.h \
+ ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal.h \
  ../Core/Inc/stm32l0xx_hal_conf.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_rcc.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_def.h \
@@ -27,9 +28,8 @@ Core/Src/gsm/gsm.o: ../Core/Src/gsm/gsm.c ../Core/Src/gsm/gsm.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_pwr_ex.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart_ex.h \
- D:/svn_data/projeler/elzEnerji/gsm/sw/branch/r1/Core/Src/sensor/sensor.h \
  D:/svn_data/projeler/elzEnerji/gsm/sw/branch/r1/Core/Src/gsm/gsm.h
-../Core/Src/gsm/gsm.h:
+../Core/Src/sensor/sensor.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal.h:
 ../Core/Inc/stm32l0xx_hal_conf.h:
@@ -59,5 +59,4 @@ Core/Src/gsm/gsm.o: ../Core/Src/gsm/gsm.c ../Core/Src/gsm/gsm.h \
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_pwr_ex.h:
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart.h:
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart_ex.h:
-D:/svn_data/projeler/elzEnerji/gsm/sw/branch/r1/Core/Src/sensor/sensor.h:
 D:/svn_data/projeler/elzEnerji/gsm/sw/branch/r1/Core/Src/gsm/gsm.h:

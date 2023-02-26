@@ -1,3 +1,4 @@
-../Core/Src/gsm/gsm.c:141:7:quectell_ATcommand_data	208	dynamic
-../Core/Src/gsm/gsm.c:219:7:quectell_message_data	288	static
-../Core/Src/gsm/gsm.c:247:6:quectell_begin	8	static
+../Core/Src/gsm/gsm.c:142:6:HAL_UART_ErrorCallback	16	static
+../Core/Src/gsm/gsm.c:168:7:quectell_ATcommand_data	208	dynamic
+../Core/Src/gsm/gsm.c:246:7:quectell_message_data	288	static
+../Core/Src/gsm/gsm.c:276:6:quectell_begin	8	static

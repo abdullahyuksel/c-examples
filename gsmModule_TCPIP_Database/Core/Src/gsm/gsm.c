@@ -5,7 +5,7 @@
  *      Author: abdul
  */
 #include "gsm.h"
-
+#include "sensor.h"
 
 /*
 Quectel_Ltd
@@ -57,8 +57,9 @@ difference, expressed in quarters of an hour, between the local time and GMT; ra
 
 */
 char NetworkTimeSynchronization[10]="AT+QNITZ=1";//Ağ Saati Senkronizasyonu
-char LatestNetworkTimeSynchronized[9]="AT+QLTS=2";//Senkronize Edilen En Son Ağ Zamanını Elde Edin
-
+char LatestNetworkTimeSynchronized[9]="AT+QLTS";//Senkronize Edilen En Son Ağ Zamanını Elde Edin
+char NetworkTime[8]="AT+CCLK?";//Senkronize Edilen En Son Ağ Zamanını Elde Edin
+char NetworkTimeSyncReport[9]="AT+CTZR=1";//Senkronize Edilen En Son Ağ Zamanını Elde Edin
 /*
 <enable>
 Indicates whether to show an unsolicited event code that indicates whether the SIM has
@@ -137,6 +138,32 @@ uint8_t ctrl_z= 26; // '26', 0x1A, '0x1A' (I have tried these 3 options also)
 void quectell_begin();
 gsm_t quectell_message_data(char *num,char *message);
 gsm_t quectell_ATcommand_data(char *request, uint8_t try);
+
+void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
+{
+  /* Prevent unused argument(s) compilation warning */
+	// Parity Error
+	if((__HAL_UART_GET_IT(huart, UART_IT_PE) != RESET))
+	{
+		__HAL_UART_CLEAR_IT(huart, UART_CLEAR_PEF);
+	}
+	// Frame Error
+	if((__HAL_UART_GET_IT(huart, UART_IT_FE) != RESET))
+	{
+		__HAL_UART_CLEAR_IT(huart, UART_CLEAR_FEF);
+	}
+	// Noise Error
+	if((__HAL_UART_GET_IT(huart, UART_IT_NE) != RESET))
+	{
+		__HAL_UART_CLEAR_IT(huart, UART_CLEAR_NEF);
+	}
+	// Overrun Error
+	if((__HAL_UART_GET_IT(huart, UART_IT_ORE) != RESET))
+	{
+		__HAL_UART_CLEAR_IT(huart, UART_CLEAR_OREF);
+	}
+
+}
 
 gsm_t quectell_ATcommand_data(char *request, uint8_t try)
 {
@@ -243,6 +270,8 @@ gsm_t quectell_message_data(char *num,char *message)
 
 	return messagePaket;
 }
+
+
 
 void quectell_begin()
 {

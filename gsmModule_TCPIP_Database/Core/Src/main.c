@@ -24,6 +24,7 @@
 
 
 #include "gsm.h"
+#include "sensor.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,6 +46,7 @@
 
 /* USER CODE BEGIN PV */
 gsm_t gsm;
+sensorPacket_t sensorPacket;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -59,31 +61,7 @@ static void MX_USART2_UART_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
-{
-  /* Prevent unused argument(s) compilation warning */
-	// Parity Error
-	if((__HAL_UART_GET_IT(huart, UART_IT_PE) != RESET))
-	{
-		__HAL_UART_CLEAR_IT(huart, UART_CLEAR_PEF);
-	}
-	// Frame Error
-	if((__HAL_UART_GET_IT(huart, UART_IT_FE) != RESET))
-	{
-		__HAL_UART_CLEAR_IT(huart, UART_CLEAR_FEF);
-	}
-	// Noise Error
-	if((__HAL_UART_GET_IT(huart, UART_IT_NE) != RESET))
-	{
-		__HAL_UART_CLEAR_IT(huart, UART_CLEAR_NEF);
-	}
-	// Overrun Error
-	if((__HAL_UART_GET_IT(huart, UART_IT_ORE) != RESET))
-	{
-		__HAL_UART_CLEAR_IT(huart, UART_CLEAR_OREF);
-	}
 
-}
 
 /* USER CODE END 0 */
 
@@ -125,10 +103,14 @@ int main(void)
 	//MODUL BILGISI
 	gsm= quectell_ATcommand_data(ATI,2);
 
-//	//IMEI
-//	HAL_Delay(1000);
-//	memset(&gsm, '\0', sizeof(gsm));
-//	gsm= quectell_ATcommand_data(imei,2);
+	//IMEI
+	HAL_Delay(1000);
+	memset(&gsm, '\0', sizeof(gsm));
+	gsm= quectell_ATcommand_data(imei,2);
+
+//	strncpy(&sensorPacket.DeviceID[0],&gsm.data[9],15);
+
+	gsm_imei_parse(&gsm, &sensorPacket);
 
 //	//GSM DURUM SORGULAMA
 //	HAL_Delay(1000);
@@ -140,15 +122,35 @@ int main(void)
 	memset(&gsm, '\0', sizeof(gsm));
 	gsm= quectell_ATcommand_data(QueryGSMNetworkStatus,10);
 
+	//BAGLANTI MODU SECIMI
+	HAL_Delay(1000);
+	memset(&gsm, '\0', sizeof(gsm));
+	gsm= quectell_ATcommand_data(NetworkRegistrationL1,10);
+
+	//BAGLANDIMI
+	HAL_Delay(1000);
+	memset(&gsm, '\0', sizeof(gsm));
+	gsm= quectell_ATcommand_data(NetworkRegistrationStatus,10);
+
 	//NETWORK SENKRONIZASYON AKTIFLESTIRME
 	HAL_Delay(1000);
 	memset(&gsm, '\0', sizeof(gsm));
 	gsm= quectell_ATcommand_data(NetworkTimeSynchronization,10);
+	HAL_Delay(1000);
+	memset(&gsm, '\0', sizeof(gsm));
+	gsm= quectell_ATcommand_data(NetworkTimeSyncReport,10);
 
 	//TARIH SAAT BILGISI
 	HAL_Delay(1000);
 	memset(&gsm, '\0', sizeof(gsm));
 	gsm= quectell_ATcommand_data(LatestNetworkTimeSynchronized,10);
+
+	HAL_Delay(1000);
+	memset(&gsm, '\0', sizeof(gsm));
+	gsm= quectell_ATcommand_data(NetworkTime,10);
+
+	gsm_timeDate_parse(&gsm, &sensorPacket);
+
 
 //	//SIM OKUMA CALISMIYOR
 //	HAL_Delay(1000);
@@ -159,15 +161,7 @@ int main(void)
 //	memset(&gsm, '\0', sizeof(gsm));
 //	gsm= quectell_ATcommand_data(SIMInsertedStatusReporting,10);
 
-	//BAGLANTI MODU SECIMI
-	HAL_Delay(1000);
-	memset(&gsm, '\0', sizeof(gsm));
-	gsm= quectell_ATcommand_data(NetworkRegistrationL1,10);
 
-	//BAGLANDIMI
-	HAL_Delay(1000);
-	memset(&gsm, '\0', sizeof(gsm));
-	gsm= quectell_ATcommand_data(NetworkRegistrationStatus,10);
 
 //	//ARAMA
 //	HAL_Delay(1000);
@@ -189,10 +183,10 @@ int main(void)
 	memset(&gsm, '\0', sizeof(gsm));
 	gsm= quectell_ATcommand_data(OperatorSignal,10);
 
-	//MESAJ
-	HAL_Delay(1000);
-	memset(&gsm, '\0', sizeof(gsm));
-	gsm= quectell_message_data(sendMessageNumber, sendMessageData);
+//	//MESAJ
+//	HAL_Delay(1000);
+//	memset(&gsm, '\0', sizeof(gsm));
+//	gsm= quectell_message_data(sendMessageNumber, sendMessageData);
 
 	HAL_Delay(1000);
 	memset(&gsm, '\0', sizeof(gsm));
@@ -204,9 +198,6 @@ int main(void)
   while (1)
   {
 
-
-//	  gsm= quectell_message_data(sendMessageNumber, sendMessageData);
-//
 	  HAL_Delay(2000);
 	  memset(&gsm, '\0', sizeof(gsm));
 

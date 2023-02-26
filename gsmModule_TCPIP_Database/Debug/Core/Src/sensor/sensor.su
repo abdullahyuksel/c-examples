@@ -1,0 +1,2 @@
+../Core/Src/sensor/sensor.c:14:6:gsm_timeDate_parse	128	static
+../Core/Src/sensor/sensor.c:46:6:gsm_imei_parse	104	static
